@@ -2,28 +2,26 @@
 
 AUTHOR: DeviceBlack
 MAIL: dddeviceddd@gmail.com
-TIME: 02/08/2022 22:49:32 BRT
+TIME: 30/07/2022 16:56:09 BRT
 
 Functions:
- - SQL_CreateTable(DB:handle, name[]);
- - SQL_DropTable(DB:handle, name[]);
- - SQL_TableExists(DB:handle, table[]);
- - SQL_AddTableColumn(DB:handle, table[], name[], type[], length);
- - SQL_ColumnExists(DB:handle, table[], column[]);
+ - SQL_CreateTable(name[]);
+ - SQL_DropTable(name[]);
+ - SQL_TableExists(table[]);
+ - SQL_AddTableColumn(table[], name[], type[], {Float,_}:length, bool:nullable, bool:primary_key, bool:auto_increment);
+ - SQL_DropTableColumn(table[], name[]);
+ - SQL_ColumnExists(table[], column[]);
 
- - SQL_Select(DB:handle, table[], column[], value[]);
+ - SQL_Select(table[], column[], value[]);
  - SQL_ReadInt(column[], &dest, Cache:cache_id);
  - SQL_ReadString(column[], dest[], size, Cache:cache_id);
  - Float:SQL_ReadFloat(column[], &Float:dest, Cache:cache_id);
 
- - SQL_Insert(DB:handle, table[]);
- - SQL_Update(DB:handle, table[], column[], value[]);
+ - SQL_Insert(table[]);
+ - SQL_Update(table[], column[], value[]);
  - SQL_WriteInt(column[], value);
  - SQL_WriteString(column[], value[]);
  - SQL_WriteFloat(column[], Float:value);
- 
- - SQL_SetResult(DBResult:cache);
- - DBResult:SQL_GetResult();
  
  - INT(value);
  - FLOAT(value);
@@ -44,19 +42,24 @@ enum COL_VARS
 
 static
 	query[4096], varCol[32][COL_VARS],
-	cols, DBResult:sv_cache;
+	cols, MySQL:server, Cache:sv_cache;
 
 
 // ______________ [ MAIN FUNCTIONS ]
-stock SQL_CreateTable(DB:handle, const name[])
+stock SQL_Connect(const host[], const user[], const pass[], const data[])
 {
-	if(!SQL_TableExists(handle, name))
+	server = mysql_connect(host, user, pass, data);
+}
+
+stock SQL_CreateTable(const name[])
+{
+	if(!SQL_TableExists(name))
 	{
-		format(query, sizeof(query), "CREATE TABLE IF NOT EXISTS %s (ID Integer primary key asc)", name);
-		db_free_result(db_query(handle, query));
+		format(query, sizeof(query), "CREATE TABLE IF NOT EXISTS %s (dropme int)", name);
+		mysql_query(server, query, false);
 	}
 	else return 0;
-	return SQL_TableExists(handle, name);
+	return SQL_TableExists(name);
 }
 
 stock SQL_DropTable(const name[])
@@ -64,50 +67,64 @@ stock SQL_DropTable(const name[])
 	if(SQL_TableExists(name))
 	{
 		format(query, sizeof(query), "DROP TABLE IF EXISTS %s", name);
-		db_free_result(db_query(handle, query));
+		mysql_query(server, query, false);
 	}
 	else return 0;
 	return !SQL_TableExists(name);
 }
 
-stock SQL_TableExists(DB:handle, const name[])
+stock SQL_TableExists(const name[])
 {
 	format(query, sizeof(query), "SHOW TABLES LIKE '%s'", name);
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
-	return (db_num_rows(sv_cache) > 0);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
+	return (cache_num_rows() > 0);
 }
 
-stock SQL_AddTableColumn(DB:handle, const table[], const name[], const type[], length)
+stock SQL_AddTableColumn(const table[], const name[], const type[], length,
+	bool:nullable = true, bool:primary_key = false, bool:auto_increment = false)
 {
 	if(strcmp(type, "float", true) && strcmp(type, "double", true))
 		format(query, sizeof(query), "ALTER TABLE %s ADD %s %s(%d)", table, name, type, length);
 	else
-		format(query, sizeof(query), "ALTER TABLE %s ADD %s double(%d,%d)", table, name, type, length, length);
+		format(query, sizeof(query), "ALTER TABLE %s ADD %s %s", table, name, type);
 	
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
+	if(!nullable) format(query, sizeof(query), "%s NOT NULL", query);
+	if(primary_key) format(query, sizeof(query), "%s PRIMARY KEY", query);
+	if(auto_increment) format(query, sizeof(query), "%s AUTO_INCREMENT", query);
+	
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
 
-	return SQL_ColumnExists(handle, table, name);
+	SQL_DropTableColumn(table, "dropme");
+	return SQL_ColumnExists(table, name);
 }
 
-stock SQL_ColumnExists(DB:handle, const table[], const column[])
+stock SQL_DropTableColumn(const table[], const column[])
 {
-	format(query, sizeof(query), "SELECT * FROM pragma_table_info('%s') WHERE name = '%s'", table, column);
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
-	return (db_num_rows(sv_cache) > 0);
+	format(query, sizeof(query), "ALTER TABLE %s DROP COLUMN %s", table, column);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
+	return !SQL_ColumnExists(table, column);
 }
 
-stock SQL_Select(DB:handle, const table[], const column[], value[])
+stock SQL_ColumnExists(const table[], const column[])
+{
+	format(query, sizeof(query), "SHOW COLUMNS FROM `%s` LIKE '%s'", table, column);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
+	return (cache_num_rows() > 0);
+}
+
+stock SQL_Select(const table[], const column[], value[])
 {
 	format(query, sizeof(query), "SELECT * FROM %s WHERE %s = '%s'", table, column, value);
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
-	return (db_num_rows(sv_cache) > 0);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
+	return (cache_num_rows() > 0);
 }
 
-stock SQL_Insert(DB:handle, const table[])
+stock SQL_Insert(const table[])
 {
 	format(query, sizeof(query), "INSERT INTO %s (", table);
 	for(new i = 0; i < cols; i++)
@@ -134,11 +151,11 @@ stock SQL_Insert(DB:handle, const table[])
 	cols = 0;
 	query[strlen(query)] = 41;
 	
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
 }
 
-stock SQL_Update(DB:handle, const table[], const where[], const value[])
+stock SQL_Update(const table[], const where[], const value[])
 {
 	format(query, sizeof(query), "UPDATE %s SET", table);
 	for(new i = 0; i < cols; i++)
@@ -158,8 +175,8 @@ stock SQL_Update(DB:handle, const table[], const where[], const value[])
 	cols = 0;
 	format(query, sizeof(query), "%s WHERE %s='%s'", where, value);
 	
-	db_free_result(sv_cache);
-	sv_cache = db_query(handle, query);
+	cache_delete(sv_cache);
+	sv_cache = mysql_query(server, query);
 }
 
 
@@ -193,18 +210,18 @@ stock SQL_WriteFloat(const column[], Float:value)
 stock SQL_ReadInt(const column[])
 {
 	static dest = 0;
-	if(sv_cache)
+	if(cache_is_any_active())
 	{
-		db_get_field_assoc_int(sv_cache, column);
+		cache_get_value_name_int(0, column, dest);
 	}
 	return dest;
 }
 
 stock SQL_ReadString(const column[], dest[], length = sizeof(dest))
 {
-	if(sv_cache)
+	if(cache_is_any_active())
 	{
-		db_get_field_assoc(sv_cache, column, dest, length);
+		cache_get_value_name(0, column, dest, length);
 	}
 	return strlen(dest);
 }
@@ -212,23 +229,11 @@ stock SQL_ReadString(const column[], dest[], length = sizeof(dest))
 stock Float:SQL_ReadFloat(const column[])
 {
 	static Float:dest = 0.0;
-	if(sv_cache)
+	if(cache_is_any_active())
 	{
-		db_get_field_assoc_float(sv_cache, column);
+		cache_get_value_name_float(0, column, dest);
 	}
 	return dest;
-}
-
-
-// ______________ [ CACHE FUNCTIONS ]
-stock SQL_SetResult(DBResult:cache)
-{
-	sv_cache = cache;
-}
-
-stock DBResult:SQL_GetResult()
-{
-	return sv_cache;
 }
 
 
