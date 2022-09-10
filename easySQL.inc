@@ -46,12 +46,13 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static DBResult:result;
+static string[4096], DBResult:result;
 
 stock select_table(const table[], const specifier[] = "")
 {
+	format(string, sizeof(string), "select * from %s", table);
 	result = db_open(dados, sprintf("select * from %s", table));
-	if(specifier[0]) 
+	if(specifier[0]) strcat(
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
@@ -84,13 +85,3 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-stock write_string(const column[], const value[])
-{
-	if(strlen(column) > 16) return 0;
-	if(strlen(value) > 255) return 0;
-	format(string, sizeof(string), "%s='%s'&", column, value);
-	strcat(write_str, string);
-	return 1;
-}
-
-stock update_table(const table[], const 
