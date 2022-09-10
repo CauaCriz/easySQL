@@ -92,14 +92,14 @@ stock write_float(const column[], const Float:value)
 	SetGVarInt("num_rows", ++row_write);
 }
 
-stock write_int(const column[], const Float:value)
+stock write_int(const column[], const value)
 {
 	SetGVarString("column_name", column, row_write);
 	SetGVarInt("column_value", value, row_write);
 	SetGVarInt("num_rows", ++row_write);
 }
 
-stock write_stri(const column[], const Float:value)
+stock write_string(const column[], const value[])
 {
 	SetGVarString("column_name", column, row_write);
 	SetGVarString("column_value", value, row_write);
