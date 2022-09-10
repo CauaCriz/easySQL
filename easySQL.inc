@@ -87,7 +87,8 @@ static row_write;
 
 stock write_float(const column[], const Float:value)
 {
-	if(0 < 
+	if(!(0 < strlen(column) < 21)) return 0;
+	if(row_write
 	SetGVarString("column_name", column, row_write);
 	SetGVarFloat("column_value", value, row_write);
 	SetGVarInt("num_rows", ++row_write);
