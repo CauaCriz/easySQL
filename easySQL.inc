@@ -83,12 +83,11 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_column[4096], write_value[4096];
+static row_write;
 
 stock write_float(const column[], const Float:value)
 {
-	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
-	format(write_value, sizeof(write_value), "%s%f,", write_value, value);
+	SetGVarInt("
 }
 
 stock write_int(const column[], const value)
