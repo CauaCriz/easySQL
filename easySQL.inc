@@ -87,7 +87,7 @@ static row_write;
 
 stock write_float(const column[], const Float:value)
 {
-	
+	SetGVarString(const name[], const value[], row_;
 	SetGVarInt("num_rows", ++row_write);
 }
 
