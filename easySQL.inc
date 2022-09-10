@@ -87,7 +87,14 @@ static write_column[4096], write_value[4096];
 
 stock write_float(const column[], const Float:value)
 {
-	format(write_column, sizeof(write_column), "%s
+	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
+	format(write_value, sizeof(write_value), "%s%f,", write_value, value);
+}
+
+stock write_float(const column[], const Float:value)
+{
+	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
+	format(write_value, sizeof(write_value), "%s%f,", write_value, value);
 }
 
 
