@@ -44,7 +44,7 @@ stock column_exists(const table[], const name[])
 }
 
 
-// read
+// ---------- read and write table functions ---------- //
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
 {
