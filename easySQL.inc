@@ -30,7 +30,7 @@ stock table_exists(const name[])
 
 stock add_column(const table[], const name[], const type, const length = 11)
 {
-	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d);", table, name, length);
+	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d) default ;", table, name, length);
 	else if(type == 1) format(vArray, sizeof(vArray), "alter table %s add %s float;", table, name);
 	else format(vArray, sizeof(vArray), "alter table %s add %s integer(%d);", table, name, length);
 	db_free_result(db_query(dados, vArray));
@@ -83,13 +83,11 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_column[544], write_value[1056], len;
 
-stock write_string(const column[])
+
+stock write_string(const column[], const value[])
 {
-	len = strlen(write_column) + 2;
-	if((len + strlen(column)) > sizeof(write_column))
-		return 0; // final size exceeded limit
+	
 
 	
 }
