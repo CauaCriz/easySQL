@@ -83,23 +83,21 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_str[3800], string[275];
-
 stock write_string(const column[], const value[])
 {
 	if(strlen(column) > 16) return 0;
 	if(strlen(value) > 255) return 0;
-	format(string, sizeof(string), "%s='%s',", column, value);
+	format(string, sizeof(string), "%s='%s'&", column, value);
 	strcat(write_str, string);
 	return 1;
 }
 
 
-static table_str[4096];
+static table_str[4096], len;
 
 stock update_table(const table[], const here_column[], const here_value[])
 {
-	strdel(
+	
 	format(table_str, sizeof(table_str), "update %s set %s where %s='%s';", table, write_str, here_column, here_value);
 	
 }
