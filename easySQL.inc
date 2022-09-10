@@ -91,10 +91,17 @@ stock write_float(const column[], const Float:value)
 	format(write_value, sizeof(write_value), "%s%f,", write_value, value);
 }
 
-stock write_float(const column[], const Float:value)
+stock write_int(const column[], const value)
 {
 	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
-	format(write_value, sizeof(write_value), "%s%f,", write_value, value);
+	format(write_value, sizeof(write_value), "%s%d,", write_value, value);
 }
 
+stock write_float(const column[], const value[])
+{
+	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
+	format(write_value, sizeof(write_value), "%s%s,", write_value, value);
+}
+
+stock table_insert(const tab
 
