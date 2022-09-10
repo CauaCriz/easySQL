@@ -87,9 +87,7 @@ static write_column[4096], write_value[4096];
 
 stock write_float(const column[], const Float:value)
 {
-	if(write_column[0])
-	{
-		strcat(write_column, ",");
+	strcat(write_column, column);
 }
 
 
