@@ -88,7 +88,7 @@ static row_write;
 stock write_float(const column[], const Float:value)
 {
 	if(!(0 < strlen(column) < 21)) return 0;
-	if(200 <= row_write) return 0;
+	if(16 <= row_write) return 0;
 
 	SetGVarString("column_name", column, row_write);
 	SetGVarFloat("column_value", value, row_write);
@@ -99,7 +99,7 @@ stock write_float(const column[], const Float:value)
 stock write_int(const column[], const value)
 {
 	if(!(0 < strlen(column) < 21)) return 0;
-	if(200 <= row_write) return 0;
+	if(16 <= row_write) return 0;
 
 	SetGVarString("column_name", column, row_write);
 	SetGVarInt("column_value", value, row_write);
@@ -110,17 +110,11 @@ stock write_int(const column[], const value)
 stock write_string(const column[], const value[])
 {
 	if(!(0 < strlen(column) < 21)) return 0;
-	if(strlen(value) > 255) return 0;
-	if(200 <= row_write) return 0;
+	if(strlen(value) > 32) return 0;
+	if(16 <= row_write) return 0;
 
 	SetGVarString("column_name", column, row_write);
 	SetGVarString("column_value", value, row_write);
 	SetGVarInt("num_rows", ++row_write);
 	return 1;
 }
-
-stock table(const table[])
-{
-	
-}
-
