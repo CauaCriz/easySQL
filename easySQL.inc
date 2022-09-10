@@ -5,11 +5,7 @@
 
 #include <strlib>
 
-// variaveis de conexao e resultado
-static DB:dados, DBResult:cache;
-
-// variaveis de armazenamento e retorno
-static vInt, vArray[255], Float:vFloat;
+static ret, query[255], DB:dados, DBResult:cache;
 
 stock set_database(DB:handle) dados = handle;
 
@@ -46,6 +42,9 @@ stock column_exists(const table[], const name[])
 	vInt = db_num_rows(cache); db_free_result(cache);
 	return (vInt > 0);
 }
+
+
+// read
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
 {
