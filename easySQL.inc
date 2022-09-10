@@ -93,4 +93,6 @@ stock write_string(const column[], const value[])
 	return 1;
 }
 
+stock update_table(const table[], const here_column
+
 
