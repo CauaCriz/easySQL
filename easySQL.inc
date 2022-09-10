@@ -46,8 +46,10 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static value_str[255], value_int, Float:value_flt;
-static DBResult:result;
+enum E_EasySQL
+{
+	integer,
+};
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
 {
