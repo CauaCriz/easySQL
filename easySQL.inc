@@ -83,7 +83,7 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static row_write, str_write[1000];
+static row_write, insert_str[1000];
 
 stock write_float(const column[], const Float:value)
 {
@@ -123,11 +123,12 @@ stock insert_table(const table[])
 {
 	format(str_write, sizeof(str_write), "insert into %s (", table);
 	
-	static i, str[32
+	static i, str[32];
 	for(i = 0; i <= row_write; i++)
 	{
+		
 		if(i == row_write)
-			formt
+			
 	}
 }
 
