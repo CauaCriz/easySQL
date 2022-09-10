@@ -47,7 +47,7 @@ stock column_exists(const table[], const name[])
 	return (vInt > 0);
 }
 
-stock read_string(const table[], const column[], const here_column[], const here_value[], const length = sizeof(dest))
+stock read_string(const table[], const column[], const here_column[], const here_value[], dest[], const length = sizeof(dest))
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
 	db_get_field(cache, 0, dest, length); db_free_result(cache);
