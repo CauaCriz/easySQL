@@ -121,6 +121,7 @@ stock write_string(const column[], const value[])
 
 stock insert_table(const table[])
 {
-	format(str_
+	format(str_write, sizeof(str_write), "insert into %s (", table);
+	for(row_write
 }
 
