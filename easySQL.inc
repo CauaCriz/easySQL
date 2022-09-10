@@ -91,12 +91,12 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-stock write_float(const table[], const column[], const Float:value)
+stock write_float(const table[], const column[], const Float:value, const target[] = "")
 {
 	static string[4096];
-	if((type % 2))
+	if(specifier[0])
 	{
-		format(string, sizeof(string), "update %s set %s='%f'
+		format(string, sizeof(string), "update %s set %s='%f' where %s", 
 	}
 	else
 	{
