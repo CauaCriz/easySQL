@@ -99,7 +99,7 @@ static table_str[4096];
 
 stock update_table(const table[], const here_column[], const here_value[])
 {
-	format(table_str, f
+	format(table_str, sizeof(table_str), "update %s set %s where %s='%s';", table, write_str, here_column, here_value);
 }
 
 
