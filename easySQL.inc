@@ -83,11 +83,11 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_str[4096], string[255];
+static write_str[4096], string[275];
 
 stock write_string(const column[], const value[])
 {
-	if
+	if(strlen(column) > 16 || strle
 }
 
 
