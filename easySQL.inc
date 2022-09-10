@@ -46,10 +46,11 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static string[4096], DBResult:result;
+static DBResult:result;
 
 stock select_table(const table[], const specifier[] = "")
 {
+	static string[4096];
 	format(string, sizeof(string), "select * from %s", table);
 
 	if(specifier[0])
@@ -90,11 +91,12 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-stock write_float(const type, const table[], const column[], const Float:alue)
+stock write_float(const table[], const column[], const Float:value)
 {
+	static string[4096];
 	if((type % 2))
 	{
-		
+		format(string, sizeof(string), "update %s set %s='%f'
 	}
 	else
 	{
