@@ -83,25 +83,3 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-/****** Codigo regeitado
-stock read_string(const table[], const column[], const here_column[], const here_value[])
-{
-	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	db_get_field(cache, 0, vArray, sizeof(vArray)); db_free_result(cache);
-	return vArray;
-}
-
-stock Float:read_float(const table[], const column[], const here_column[], const here_value[])
-{
-	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	vFloat = db_get_field_float(cache); db_free_result(cache);
-	return vFloat;
-}
-
-stock read_int(const table[], const column[], const here_column[], const here_value[])
-{
-	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	vInt = db_get_field_int(cache); db_free_result(cache);
-	return vInt;
-}
-*******/
