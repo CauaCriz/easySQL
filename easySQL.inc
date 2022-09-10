@@ -48,7 +48,9 @@ stock column_exists(const table[], const name[])
 
 enum E_EasySQL
 {
-	integer,
+	esql_array[255],
+	esql_decimal,
+	
 };
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
