@@ -119,4 +119,8 @@ stock write_string(const column[], const value[])
 	return 1;
 }
 
+stock insert_table(const table[])
+{
+	format(str_
+}
 
