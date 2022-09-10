@@ -6,7 +6,7 @@
 #include <strlib>
 
 static DB:dados, DBResult:cache;
-static ret, query[255];
+static integer, string[255], Float:floating;
 
 stock set_database(DB:handle) dados = handle;
 
@@ -41,7 +41,7 @@ stock add_column(const table[], const name[], const type, const length = 11)
 stock column_exists(const table[], const name[])
 {
 	cache = db_query(dados, sprintf("select * from pragma_table_info('%s') where name = '%s';", table, name));
-	static ret; ret = db_num_rows(cache); db_free_result(cache);
+	ret = db_num_rows(cache); db_free_result(cache);
 	return ret;
 }
 
