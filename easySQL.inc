@@ -83,7 +83,7 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_str[4096], string[275];
+static write_str[3800], string[275];
 
 stock write_string(const column[], const value[])
 {
@@ -93,9 +93,11 @@ stock write_string(const column[], const value[])
 	return 1;
 }
 
+static table_str[4096];
+
 stock update_table(const table[], const here_column[], const here_value[])
 {
-	static 
+	
 }
 
 
