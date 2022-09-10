@@ -56,7 +56,7 @@ static var_ret[E_EasySQL], DBResult:result;
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
 {
-	cache
+	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, column
 }
 
 /****** Codigo regeitado
