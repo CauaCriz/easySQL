@@ -83,12 +83,10 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-
+static write_column[4096], write_value[4096];
 
 stock write_string(const column[], const value[])
 {
-	
-
 	
 }
 
