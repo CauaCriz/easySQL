@@ -46,7 +46,8 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static 
+static DBResult:result, Float:value;
+
 stock select_table(const table[], const here_column[], const here_value[])
 {
 	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, here_column, here_value));
@@ -54,6 +55,9 @@ stock select_table(const table[], const here_column[], const here_value[])
 	db_free_result(result);
 	return 0;
 }
+
+stock read_float((const column[])
+
 
 stock read_string(const column[], dest[], const length = sizeof(dest))
 {
