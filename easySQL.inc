@@ -83,8 +83,12 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_column[544];
+static write_column[544], len;
 
-stock
+stock write_string(const column[])
+{
+	len = strlen(write_column) + strlen(column);
+	if(
+}
 
 
