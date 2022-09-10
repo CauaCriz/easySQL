@@ -28,8 +28,8 @@ stock drop_table(const name[])
 stock table_exists(const name[])
 {
 	cache = db_query(dados, sprintf("select * from %s;", name));
-	ret = db_num_rows(cache); db_free_result(cache);
-	return ret;
+	vInt = db_num_rows(cache); db_free_result(cache);
+	return (vInt > 0);
 }
 
 stock add_column(const table[], const name[], const type, const length = 11)
@@ -44,8 +44,8 @@ stock add_column(const table[], const name[], const type, const length = 11)
 stock column_exists(const table[], const name[])
 {
 	cache = db_query(dados, sprintf("select * from pragma_table_info('%s') where name = '%s';", table, name));
-	ret = db_num_rows(cache); db_free_result(cache);
-	return ret;
+	vInt = db_num_rows(cache); db_free_result(cache);
+	return (vInt > 0);
 }
 
 stock read_string(const table[], const column[], const here_column[], const here_value[])
@@ -65,7 +65,7 @@ stock Float:read_float(const table[], const column[], const here_column[], const
 stock read_int(const table[], const column[], const here_column[], const here_value[])
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	static value; value = db_get_field_int(cache); db_free_result(cache);
+	vInt = db_get_field_int(cache); db_free_result(cache);
 	return value;
 }
 
