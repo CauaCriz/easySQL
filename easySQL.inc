@@ -83,3 +83,6 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
+static write_column[
+
+
