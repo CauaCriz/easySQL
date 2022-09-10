@@ -83,7 +83,7 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static row_write;
+static row_write, str_write[1000];
 
 stock write_float(const column[], const Float:value)
 {
