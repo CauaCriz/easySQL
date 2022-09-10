@@ -48,7 +48,7 @@ stock column_exists(const table[], const name[])
 
 static DBResult:result;
 
-stock select_table(const table[], const here_column[], const here_value[])
+stock select_table(const table[], const wait)
 {
 	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, here_column, here_value));
 	if(db_num_rows(result)) return 1;
@@ -92,14 +92,4 @@ stock write_string(const column[], const value[])
 	return 1;
 }
 
-
-static table_str[4096], len;
-
-stock update_table(const table[], const here_column[], const here_value[])
-{
-	
-	format(table_str, sizeof(table_str), "update %s set %s where %s='%s';", table, write_str, here_column, here_value);
-	
-}
-
-
+stock update_table(const table[], const 
