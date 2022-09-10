@@ -90,5 +90,15 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-stock write_float(const table[], 
+stock write_float(const type, const table[], const column[], const Float:alue)
+{
+	if((type % 2))
+	{
+		
+	}
+	else
+	{
+		
+	}
+}
 
