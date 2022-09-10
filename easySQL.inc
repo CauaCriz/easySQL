@@ -83,52 +83,6 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static row_write, insert_str[1000];
+static write_column
 
-stock write_float(const column[], const Float:value)
-{
-	if(!(0 < strlen(column) < 21)) return 0;
-	if(16 <= row_write) return 0;
-
-	SetGVarString("column_name", column, row_write);
-	SetGVarFloat("column_value", value, row_write);
-	SetGVarInt("num_rows", ++row_write);
-	return 1;
-}
-
-stock write_int(const column[], const value)
-{
-	if(!(0 < strlen(column) < 21)) return 0;
-	if(16 <= row_write) return 0;
-
-	SetGVarString("column_name", column, row_write);
-	SetGVarInt("column_value", value, row_write);
-	SetGVarInt("num_rows", ++row_write);
-	return 1;
-}
-
-stock write_string(const column[], const value[])
-{
-	if(!(0 < strlen(column) < 21)) return 0;
-	if(strlen(value) > 32) return 0;
-	if(16 <= row_write) return 0;
-
-	SetGVarString("column_name", column, row_write);
-	SetGVarString("column_value", value, row_write);
-	SetGVarInt("num_rows", ++row_write);
-	return 1;
-}
-
-stock insert_table(const table[])
-{
-	format(str_write, sizeof(str_write), "insert into %s (", table);
-	
-	static i, str[32];
-	for(i = 0; i <= row_write; i++)
-	{
-		
-		if(i == row_write)
-			
-	}
-}
 
