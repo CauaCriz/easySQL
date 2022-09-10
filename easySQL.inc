@@ -56,7 +56,7 @@ stock select_table(const table[], const here_column[], const here_value[])
 	return 0;
 }
 
-stock Float:read_float((const column[])
+stock Float:read_float(const column[])
 {
 	if(db_num_rows(result))
 	{
@@ -65,7 +65,7 @@ stock Float:read_float((const column[])
 	return 0.0;
 }
 
-stock read_int((const column[])
+stock read_int(const column[])
 {
 	if(db_num_rows(result))
 	{
