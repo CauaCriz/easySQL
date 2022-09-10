@@ -48,10 +48,11 @@ stock column_exists(const table[], const name[])
 
 enum E_EasySQL
 {
-	esql_array[255],
 	esql_decimal,
-	
+	esql_array[255],
+	Float:esql_float
 };
+static var_ret[E_EasySQL], DBResult:result;
 
 stock select_table(const table[], const column[], const here_column[], const here_value[])
 {
