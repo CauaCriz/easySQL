@@ -90,14 +90,16 @@ stock write_string(const column[], const value[])
 	if(strlen(column) > 16) return 0;
 	if(strlen(value) > 255) return 0;
 	format(string, sizeof(string), "%s='%s',", column, value);
+	strcat(write_str, string);
 	return 1;
 }
+
 
 static table_str[4096];
 
 stock update_table(const table[], const here_column[], const here_value[])
 {
-	
+	format(table_str, f
 }
 
 
