@@ -59,21 +59,17 @@ stock select_table(const table[], const here_column[], const here_value[])
 stock Float:read_float((const column[])
 {
 	if(db_num_rows(result))
-	{
-		fvalue = db_get_field_assoc_float(result, column);
-	}
-	else return 0.0;
-	return fvalue;
+		return db_get_field_assoc_float(result, column);
+	
+	return 0.0;
 }
 
 stock read_int((const column[])
 {
 	if(db_num_rows(result))
-	{
-		fvalue = Float:db_get_field_assoc_int(result, column);
-	}
-	else return 0;
-	return ivalue;
+		return db_get_field_assoc_int(result, column);
+
+	return 0;
 }
 
 stock read_string(const column[], dest[], const length = sizeof(dest))
