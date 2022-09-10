@@ -87,9 +87,9 @@ static write_column[544], len;
 
 stock write_string(const column[])
 {
-	len = strlen(write_column) + strlen(column);
+	len = strlen(write_column) + 2;
 	if((len + strlen(column)) > sizeof(write_column))
-		return 0; 
+		return 0; // final size exceeded limit
 }
 
 
