@@ -87,7 +87,10 @@ static write_str[4096], string[275];
 
 stock write_string(const column[], const value[])
 {
-	if(strlen(column) > 16 || strle
+	if(strlen(column) > 16) return 0;
+	if(strlen(value) > 255) return 0;
+	format(string, sizeof(string), "%s='%s',", column, value);
+	return 1;
 }
 
 
