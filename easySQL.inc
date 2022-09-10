@@ -64,10 +64,12 @@ stock select_table(const table[], const here_column[], const here_value[])
 
 stock read_string(const column[], dest[], const length = sizeof(dest))
 {
-	if(result)
+	if(db_num_rows(result))
 	{
-		
+		db_get_field_assoc(DBResult:dbresult, const field[], result[], maxlength);
 	}
+	else return 0;
+	return 1;
 }
 
 /****** Codigo regeitado
