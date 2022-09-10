@@ -46,7 +46,7 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static DBResult:result, Float:value;
+static DBResult:result, Float:fvalue;
 
 stock select_table(const table[], const here_column[], const here_value[])
 {
@@ -57,6 +57,15 @@ stock select_table(const table[], const here_column[], const here_value[])
 }
 
 stock read_float((const column[])
+{
+	if(db_num_rows(result))
+	{
+		fvalue = db_get_field_assoc_float(result, column);
+	}
+	else return 0.0;
+	return fvalue;
+}
+
 
 
 stock read_string(const column[], dest[], const length = sizeof(dest))
