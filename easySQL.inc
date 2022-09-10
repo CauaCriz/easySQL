@@ -55,7 +55,9 @@ stock select_table(const table[], const specifier[] = "")
 	if(specifier[0])
 		strcat(string, sprintf(" %s", specifier));
 
+	db_free_result(result);
 	result = db_query(dados, string);
+
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
@@ -87,4 +89,6 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	}
 	return 0;
 }
+
+stock write_float(const table[], 
 
