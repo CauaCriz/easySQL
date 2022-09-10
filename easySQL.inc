@@ -92,16 +92,18 @@ stock write_float(const column[], const Float:value)
 	SetGVarInt("num_rows", ++row_write);
 }
 
-stock write_int(const column[], const value)
+stock write_int(const column[], const Float:value)
 {
-	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
-	format(write_value, sizeof(write_value), "%s%d,", write_value, value);
+	SetGVarString("column_name", column, row_write);
+	SetGVarInt("column_value", value, row_write);
+	SetGVarInt("num_rows", ++row_write);
 }
 
-stock write_float(const column[], const value[])
+stock write_stri(const column[], const Float:value)
 {
-	format(write_column, sizeof(write_column), "%s%s,", write_column, column);
-	format(write_value, sizeof(write_value), "%s%s,", write_value, value);
+	SetGVarString("column_name", column, row_write);
+	SetGVarString("column_value", value, row_write);
+	SetGVarInt("num_rows", ++row_write);
 }
 
 stock table_insert(const table[])
