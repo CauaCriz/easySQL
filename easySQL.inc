@@ -51,21 +51,21 @@ stock column_exists(const table[], const name[])
 stock read_string(const table[], const column[], const here_column[], const here_value[])
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	static dest[255]; db_get_field(cache, 0, dest, sizeof(dest)); db_free_result(cache);
-	return dest;
+	db_get_field(cache, 0, vArray, sizeof(vArray)); db_free_result(cache);
+	return vArray;
 }
 
 stock Float:read_float(const table[], const column[], const here_column[], const here_value[])
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
-	static Float:value; value = db_get_field_float(cache); db_free_result(cache);
-	return value;
+	vFloat = db_get_field_float(cache); db_free_result(cache);
+	return vFloat;
 }
 
 stock read_int(const table[], const column[], const here_column[], const here_value[])
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
 	vInt = db_get_field_int(cache); db_free_result(cache);
-	return value;
+	return vInt;
 }
 
