@@ -118,3 +118,5 @@ stock write_string(const column[], const value[])
 	SetGVarInt("num_rows", ++row_write);
 	return 1;
 }
+
+
