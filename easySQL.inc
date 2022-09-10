@@ -34,11 +34,10 @@ stock table_exists(const name[])
 
 stock add_column(const table[], const name[], const type, const length = 11)
 {
-	static query[255];
-	if(type == 2) format(query, sizeof(query), "alter table %s add %s varchar(%d);", table, name, length);
-	else if(type == 1) format(query, sizeof(query), "alter table %s add %s float;", table, name);
-	else format(query, sizeof(query), "alter table %s add %s integer(%d);", table, name, length);
-	db_free_result(db_query(dados, query));
+	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d);", table, name, length);
+	else if(type == 1) format(vArray, sizeof(vArray), "alter table %s add %s float;", table, name);
+	else format(vArray, sizeof(vArray), "alter table %s add %s integer(%d);", table, name, length);
+	db_free_result(db_query(dados, vArray));
 }
 
 stock column_exists(const table[], const name[])
