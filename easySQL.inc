@@ -47,7 +47,10 @@ stock column_exists(const table[], const name[])
 	return (vInt > 0);
 }
 
-stock select_table(const table[], const column[], const here_column
+stock select_table(const table[], const column[], const here_column[], const here_value[])
+{
+	cache
+}
 
 /****** Codigo regeitado
 stock read_string(const table[], const column[], const here_column[], const here_value[])
