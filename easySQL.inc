@@ -83,13 +83,15 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
-static write_column[544], len;
+static write_column[544], write_value[1056], len;
 
 stock write_string(const column[])
 {
 	len = strlen(write_column) + 2;
 	if((len + strlen(column)) > sizeof(write_column))
 		return 0; // final size exceeded limit
+
+	
 }
 
 
