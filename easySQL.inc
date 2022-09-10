@@ -106,7 +106,7 @@ stock write_string(const column[], const value[])
 	SetGVarInt("num_rows", ++row_write);
 }
 
-stock table_insert(const table[])
+stock table(const table[])
 {
 	
 }
