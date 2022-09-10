@@ -110,6 +110,7 @@ stock write_int(const column[], const value)
 stock write_string(const column[], const value[])
 {
 	if(!(0 < strlen(column) < 21)) return 0;
+	if(strlen(value) > 255) return 0;
 	if(200 <= row_write) return 0;
 
 	SetGVarString("column_name", column, row_write);
