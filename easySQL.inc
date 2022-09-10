@@ -75,11 +75,9 @@ stock read_int((const column[])
 stock read_string(const column[], dest[], const length = sizeof(dest))
 {
 	if(db_num_rows(result))
-	{
-		db_get_field_assoc(result, column, dest, length);
-	}
-	else return 0;
-	return 1;
+		return db_get_field_assoc(result, column, dest, length);
+
+	return 0;
 }
 
 /****** Codigo regeitado
