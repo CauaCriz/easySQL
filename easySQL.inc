@@ -62,6 +62,14 @@ stock select_table(const table[], const here_column[], const here_value[])
 	return 0;
 }
 
+stock read_string(const column[], dest[], const length = sizeof(dest))
+{
+	if(result)
+	{
+		
+	}
+}
+
 /****** Codigo regeitado
 stock read_string(const table[], const column[], const here_column[], const here_value[])
 {
