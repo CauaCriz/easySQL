@@ -6,6 +6,7 @@
 #include <strlib>
 
 static DB:dados, DBResult:cache;
+static ret, query[255];
 
 stock set_database(DB:handle) dados = handle;
 
@@ -24,7 +25,7 @@ stock drop_table(const name[])
 stock table_exists(const name[])
 {
 	cache = db_query(dados, sprintf("select * from %s;", name));
-	static ret; ret = db_num_rows(cache); db_free_result(cache);
+	ret = db_num_rows(cache); db_free_result(cache);
 	return ret;
 }
 
