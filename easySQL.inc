@@ -5,9 +5,10 @@
 
 #include <strlib>
 
+// variaveis de conexao e resultado
 static DB:dados, DBResult:cache;
 
-// variaveis de armazenamento e
+// variaveis de armazenamento e retorno
 static vInt, vArray[255], Float:vFloat;
 
 stock set_database(DB:handle) dados = handle;
