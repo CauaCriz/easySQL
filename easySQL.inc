@@ -57,7 +57,8 @@ static var_ret[E_EasySQL], DBResult:result;
 stock select_table(const table[], const here_column[], const here_value[])
 {
 	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, here_column, here_value));
-	if(!db_num_rows(result)) db_free_result(resilt);
+	if(db_num_rows(result)) return 1;
+	db_free_result(result); return 0;
 }
 
 /****** Codigo regeitado
