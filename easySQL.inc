@@ -66,8 +66,8 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 {
 	if(db_num_rows(result))
 	{
-		db_get_field_assoc(DBResult:dbresult, const field[], result[], maxlength);
-	}
+		db_get_field_assoc(result, column, dest, length);
+		re
 	else return 0;
 	return 1;
 }
