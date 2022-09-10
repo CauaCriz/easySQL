@@ -103,5 +103,8 @@ stock write_float(const column[], const value[])
 	format(write_value, sizeof(write_value), "%s%s,", write_value, value);
 }
 
-stock table_insert(const tab
+stock table_insert(const table[])
+{
+	
+}
 
