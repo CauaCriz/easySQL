@@ -6,7 +6,9 @@
 #include <strlib>
 
 static DB:dados, DBResult:cache;
-static integer, string[255], Float:floating;
+
+// variaveis de armazenamento e
+static vInt, vArray[255], Float:vFloat;
 
 stock set_database(DB:handle) dados = handle;
 
