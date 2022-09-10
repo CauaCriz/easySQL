@@ -51,8 +51,10 @@ static string[4096], DBResult:result;
 stock select_table(const table[], const specifier[] = "")
 {
 	format(string, sizeof(string), "select * from %s", table);
+	if(specifier[0]) strcat(string, sprintf(" %s", specifier));
+	
 
-	result = db_query(dados, (spec[0] ? sprintf(" %
+	result = db_query(dados, string);
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
