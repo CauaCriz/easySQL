@@ -46,7 +46,7 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static ivalue, Float:fvalue, DBResult:result;
+static DBResult:result;
 
 stock select_table(const table[], const here_column[], const here_value[])
 {
