@@ -30,7 +30,7 @@ stock table_exists(const name[])
 
 stock add_column(const table[], const name[], const type, const length = 11)
 {
-	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d) default ;", table, name, length);
+	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d);", table, name, length);
 	else if(type == 1) format(vArray, sizeof(vArray), "alter table %s add %s float;", table, name);
 	else format(vArray, sizeof(vArray), "alter table %s add %s integer(%d);", table, name, length);
 	db_free_result(db_query(dados, vArray));
