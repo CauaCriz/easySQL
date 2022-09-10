@@ -123,7 +123,11 @@ stock insert_table(const table[])
 {
 	format(str_write, sizeof(str_write), "insert into %s (", table);
 	
-	static i;
-	for(i = 0; i < row_write
+	static i, str[32
+	for(i = 0; i <= row_write; i++)
+	{
+		if(i == row_write)
+			formt
+	}
 }
 
