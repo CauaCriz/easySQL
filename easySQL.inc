@@ -46,14 +46,7 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-enum E_EasySQL
-{
-	esql_decimal,
-	esql_array[255],
-	Float:esql_float
-};
-static var_ret[E_EasySQL], DBResult:result;
-
+static 
 stock select_table(const table[], const here_column[], const here_value[])
 {
 	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, here_column, here_value));
@@ -67,7 +60,7 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	if(db_num_rows(result))
 	{
 		db_get_field_assoc(result, column, dest, length);
-		re
+	}
 	else return 0;
 	return 1;
 }
