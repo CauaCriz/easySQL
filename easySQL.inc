@@ -48,9 +48,10 @@ stock column_exists(const table[], const name[])
 
 static DBResult:result;
 
-stock select_table(const table[], const wait)
+stock select_table(const table[], const specifier[] = "")
 {
-	result = db_open(dados, sprintf("select * from %s where %s = '%s';", table, here_column, here_value));
+	result = db_open(dados, sprintf("select * from %s", table));
+	if(specifier[0]) 
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
