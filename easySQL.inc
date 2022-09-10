@@ -52,9 +52,7 @@ stock select_table(const table[], const specifier[] = "")
 {
 	format(string, sizeof(string), "select * from %s", table);
 
-	if(specifier[0])
-		strcat(string, sprintf("%s %s", sting
-	
+	result = db_query(dados, (spec[0] ? sprintf(" %
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
