@@ -47,6 +47,7 @@ stock column_exists(const table[], const name[])
 	return (vInt > 0);
 }
 
+/****** Codigo regeitado
 stock read_string(const table[], const column[], const here_column[], const here_value[])
 {
 	cache = db_query(dados, sprintf("select %s from %s where %s = '%s';", table, name, here_column, here_value));
@@ -67,4 +68,4 @@ stock read_int(const table[], const column[], const here_column[], const here_va
 	vInt = db_get_field_int(cache); db_free_result(cache);
 	return vInt;
 }
-
+*******/
