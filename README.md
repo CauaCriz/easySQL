@@ -16,7 +16,8 @@ function read_string(const column[], dest[]); // recuperar string em uma tabela 
 function Float:read_float(const column[]); // recuperar float em uma tabela especifica
 function read_int(const column[]); // recuperar int em uma tabela especifica
 
-
+function write_string(const column[], const value[]);
+function write_float(const column[], const Float:value);
 ```
 <br />
 <b>Obs:</b> ainda incompleto! <b copyright="DeviceBlack">75%</b>
