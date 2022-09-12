@@ -64,7 +64,7 @@ stock column_exists(const table[], const name[])
 }
 
 
-// ---------- read and write table natives ---------- //
+// ---------- read and write table functions ---------- //
 
 static r_str[4096], DBResult:result;
 
