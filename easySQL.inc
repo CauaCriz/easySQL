@@ -94,8 +94,10 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 
 static n_write;
 
-stock write_string(const table[], const column[], const value[])
+stock write_string(const column[], const value[])
 {
 	
+	SetSVarString(sprintf("sql_column:%d", n_write), column);
+	SetSVarString(sprintf("sql_value:%d", n_write), column);
 }
 
