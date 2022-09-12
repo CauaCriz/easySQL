@@ -1,5 +1,5 @@
 #if defined fake_native
-native set_database(DB:handle); // setar banco de dados
+native set_database(const DB:handle); // setar banco de dados
 native create_table(const name[]); // criar tabela
 native drop_table(const name[]); // deletar tabela
 native table_exists(const name[]); // verificar se tabela existe
@@ -64,7 +64,7 @@ stock column_exists(const table[], const name[])
 }
 
 
-// ---------- read and write table functions ---------- //
+// ---------- read and write table functions =---------- //
 
 static r_str[4096], DBResult:result;
 
