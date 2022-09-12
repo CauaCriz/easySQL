@@ -91,13 +91,11 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 	return 0;
 }
 
+
+static n_write;
+
 stock write_string(const table[], const column[], const value[])
 {
-	static n;
-	if(!table[0]) n = 0;
-	else
-	{
-		
-	}
+	static 
 }
 
