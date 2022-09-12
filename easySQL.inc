@@ -100,8 +100,7 @@ stock write_string(const column[], const value[])
 	else if(!(0 < strlen(value) < 32)) return 0;
 
 	SetSVarString(sprintf("sql_column:%d", n_write), column);
-	SetSVarString(sprintf("sql_value:%d", n_write), column);
-	n
+	SetSVarString(sprintf("sql_value:%d", n_write++), column);
 	return 1;
 }
 
