@@ -104,3 +104,13 @@ stock write_string(const column[], const value[])
 	return 1;
 }
 
+stock write_float(const column[], const Float:value)
+{
+	return write_string(column, const value[])
+}
+
+
+
+
+
+
