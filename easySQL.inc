@@ -46,35 +46,33 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static r_str DBResult:result;
+static r_str[4096], DBResult:result;
 
 stock select_table(const table[], const specifier[] = "")
 {
-	static string[4096];
-	format(string, sizeof(string), "select * from %s", table);
+	format(r_str, sizeof(r_str), "select * from %s", table);
 
 	if(specifier[0])
-		strcat(string, sprintf(" %s", specifier));
+		strcat(r_str, sprintf(" %s", specifier));
 
 	db_free_result(result);
-	result = db_query(dados, string);
+	result = db_query(dados, r_str);
 
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
 	return 0;
 }
 
-stock read_string(const column[], dest[], const length = sizeof(dest))
+stock read_string(const column[], dest[])
 {
 	if(!db_num_rows(result)) return 0;
-	return db_get_field_assoc(result, column, dest, length);
+	return db_get_field_assoc(result, column, dest, 32);
 }
 
 stock Float:read_float(const column[])
 {
-	static dest[32];
-	read_string(column, dest);
-	return floatstr(dest);
+	read_string(column, r_str);
+	return floatstr(r_str);
 }
 
 stock read_int(const column[])
