@@ -115,7 +115,7 @@ stock insert_table(const table[])
 		if((w_i + 1) < n_write) strcat(w_str, ",");
 	}
 
-	strcat(w_str, sizeof(w_str), "%s) values (");
+	strcat(w_str, ") values (");
 	for(w_i = 0; w_i < n_write; w_i++)
 	{
 		static value[32];
@@ -124,6 +124,8 @@ stock insert_table(const table[])
 		if((w_i + 1) < n_write) strcat(w_str, ",");
 	}
 
+	strcat(w_str, ")");
+	db_free_r
 }
 
 
