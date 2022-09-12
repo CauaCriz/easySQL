@@ -96,7 +96,7 @@ static n_write;
 
 stock write_string(const column[], const value[])
 {
-	
+	if(!(0 < strlen(column) < 17) ) 
 	SetSVarString(sprintf("sql_column:%d", n_write), column);
 	SetSVarString(sprintf("sql_value:%d", n_write), column);
 }
