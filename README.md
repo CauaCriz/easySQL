@@ -21,4 +21,4 @@ function write_float(const column[], const Float:value); // pre-escrever o valor
 function write_int(const column[], const value); // pre-escrever o valor inteiro na coluna
 ```
 <br />
-<b>Obs:</b> N�o testado! <b copyright="DeviceBlack">99%</b>
+<b>Obs:</b> Nao testado! <b copyright="DeviceBlack">99%</b>
