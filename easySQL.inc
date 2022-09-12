@@ -64,13 +64,19 @@ stock select_table(const table[], const specifier[] = "")
 	return 0;
 }
 
-stock Float:read_float(const column[])
+stock read_string(const column[], dest[], const length = sizeof(dest))
 {
 	if(db_num_rows(result))
 	{
-		return db_get_field_assoc_float(result, column);
+		return db_get_field_assoc(result, column, dest, length);
 	}
-	return 0.0;
+	return 0;
+}
+
+stock Float:read_float(const column[])
+{
+	static dest[32];
+	read_string(const column[], dest);
 }
 
 stock read_int(const column[])
