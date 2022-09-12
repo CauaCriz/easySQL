@@ -148,7 +148,8 @@ stock update_table(const table[], const specifier[] = "")
 		if((w_i + 1) < n_write) strcat(w_str, ",");
 	}
 	
-	if(specifier[0
+	if(specifier[0])
+		strcat(w_str, sprintf(" %s", 
 }
 
 
