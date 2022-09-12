@@ -106,7 +106,12 @@ stock write_string(const column[], const value[])
 
 stock write_float(const column[], const Float:value)
 {
-	return write_string(column, const value[])
+	return write_string(column, sprintf("%f", value));
+}
+
+stock write_int(const column[], const value)
+{
+	return write_string(column, sprintf("%d", value));
 }
 
 
