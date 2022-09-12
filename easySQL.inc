@@ -131,6 +131,10 @@ stock insert_table(const table[])
 	return select_table(table);
 }
 
+stock update_table(const table[], const specifier[] = "")
+{
+	format(w_str, sizeof(w_str), "update %s set ", table);
+}
 
 
 
