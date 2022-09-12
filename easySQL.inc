@@ -76,17 +76,17 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 stock Float:read_float(const column[])
 {
 	static dest[32];
-	read_string(const column[], dest);
+	read_string(column, dest);
+	return floatstr(dest);
 }
 
-stock read_int(const column[])
+stock read_float(const column[])
 {
-	if(db_num_rows(result))
-	{
-		return db_get_field_assoc_int(result, column);
-	}
-	return 0;
+	static dest[32];
+	read_string(column, dest);
+	return floatstr(dest);
 }
+
 
 stock read_string(const column[], dest[], const length = sizeof(dest))
 {
