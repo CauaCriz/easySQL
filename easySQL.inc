@@ -107,7 +107,7 @@ stock write_int(const column[], const value)
 	return write_string(column, sprintf("%d", value));
 }
 
-
+stock 
 
 
 
