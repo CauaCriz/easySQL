@@ -110,7 +110,7 @@ stock insert_table(const table[])
 
 	for(w_i = 0; w_i < n_write; w_i++)
 	{
-		
+		static column[16
 	}
 }
 
