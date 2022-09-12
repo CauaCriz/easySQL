@@ -2,7 +2,7 @@
 Um jeito mais facil de usar SQL no Pawn
 <br />
 ```pwn
-function set_database(DB:handle); // setar banco de dados
+function set_database(const DB:handle); // setar banco de dados
 function create_table(const name[]); // criar tabela
 function drop_table(const name[]); // deletar tabela
 function table_exists(const name[]); // verificar se tabela existe
