@@ -46,7 +46,7 @@ stock column_exists(const table[], const name[])
 
 // ---------- read and write table functions ---------- //
 
-static DBResult:result;
+static r_str DBResult:result;
 
 stock select_table(const table[], const specifier[] = "")
 {
@@ -85,7 +85,7 @@ stock read_int(const column[])
 }
 
 
-static n_write;
+static n_write, n_str[4096];
 
 stock write_string(const column[], const value[])
 {
@@ -109,7 +109,8 @@ stock write_int(const column[], const value)
 
 stock insert_table(const table[])
 {
-	
+	static string[4096];
+	for(
 }
 
 
