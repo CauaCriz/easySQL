@@ -149,7 +149,10 @@ stock update_table(const table[], const specifier[] = "")
 	}
 	
 	if(specifier[0])
-		strcat(w_str, sprintf(" %s", 
+		strcat(w_str, sprintf(" %s", specifier));
+
+	db_free_result(db_query(dados, w_str));
+	return select_table(table, specifier);
 }
 
 
