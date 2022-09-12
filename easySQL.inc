@@ -113,6 +113,7 @@ stock insert_table(const table[])
 		GetSVarString(sprintf("sql_column:%d", w_i), column, sizeof(column));
 		format(w_str, sizeof(w_str), "%s%s", w_str, column);
 		if((w_i + 1) < n_write) strcat(w_str, ",");
+		DeleteSVar(sprintf("sql_column:%d", w_i));
 	}
 
 	strcat(w_str, ") values (");
@@ -122,6 +123,7 @@ stock insert_table(const table[])
 		GetSVarString(sprintf("sql_value:%d", w_i), value, sizeof(value));
 		format(w_str, sizeof(w_str), "%s'%s'", w_str, value);
 		if((w_i + 1) < n_write) strcat(w_str, ",");
+		DeleteSVar(sprintf("sql_value:%d", w_i));
 	}
 
 	strcat(w_str, ")");
