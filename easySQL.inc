@@ -139,6 +139,9 @@ stock update_table(const table[], const specifier[] = "")
 		static column[16], value[32];
 		GetSVarString(sprintf("sql_column:%d", w_i), column, sizeof(column));
 		GetSVarString(sprintf("sql_value:%d", w_i), value, sizeof(value));
+		format(w_str, sizeof(w_str), "%s %s='%s'", w_str, column, value);
+		
+		if((w_i + 1) < n_write) strcat(w_str, ",");
 	}
 }
 
