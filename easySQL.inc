@@ -92,10 +92,10 @@ stock read_string(const column[], dest[], const length = sizeof(dest))
 }
 
 
-static n_write, n_string[255];
+static n_write;
 
 stock write_string(const table[], const column[], const value[])
 {
-	format(n_string, sizeof(n_string), "SQLID_%
+	
 }
 
