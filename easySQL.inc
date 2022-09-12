@@ -113,8 +113,17 @@ stock insert_table(const table[])
 		static column[16];
 		GetSVarString(sprintf("sql_column:%d", w_i), column, sizeof(column));
 		format(w_str, sizeof(w_str), "%s%s", w_str, column);
-		if((w_i
+		if((w_i + 1) < n_write) strcat(w_str, ",");
 	}
+
+	for(w_i = 0; w_i < n_write; w_i++)
+	{
+		static value[32];
+		GetSVarString(sprintf("sql_column:%d", w_i), value, sizeof(value));
+		format(w_str, sizeof(w_str), "%s%s", w_str, column);
+		if((w_i + 1) < n_write) strcat(w_str, ",");
+	}
+
 }
 
 
