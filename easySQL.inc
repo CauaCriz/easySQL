@@ -106,7 +106,12 @@ stock write_int(const column[], const value)
 
 stock insert_table(const table[])
 {
-	for(w_i = 0; w_i < str
+	format(w_str, sizeof(w_str), "insert into %s (", table);
+
+	for(w_i = 0; w_i < n_write; w_i++)
+	{
+		
+	}
 }
 
 
