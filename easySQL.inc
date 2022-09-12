@@ -125,7 +125,8 @@ stock insert_table(const table[])
 	}
 
 	strcat(w_str, ")");
-	db_free_r
+	db_free_result(db_query(dados, w_str));
+	return select_table(table);
 }
 
 
