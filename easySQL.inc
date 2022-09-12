@@ -77,13 +77,12 @@ stock Float:read_float(const column[])
 
 stock read_int(const column[])
 {
-	static dest[32];
-	read_string(column, dest);
-	return strval(dest);
+	read_string(column, r_str);
+	return strval(r_str);
 }
 
 
-static n_write, n_str[4096];
+static n_write, w_i, w_str[4096];
 
 stock write_string(const column[], const value[])
 {
@@ -107,8 +106,7 @@ stock write_int(const column[], const value)
 
 stock insert_table(const table[])
 {
-	static string[4096];
-	for(
+	for(w_i = 0; w_i < str
 }
 
 
