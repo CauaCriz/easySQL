@@ -40,7 +40,7 @@ stock set_database(const DB:handl) handle = handl;
 
 stock create_table(const name[])
 {
-	cache = db_query(handle, sprintf("create table %s (idx int primary key asc);", name));
+	cache = db_query(handle, sprintf("create table %s (idx integer primary key autoincrement);", name));
 	db_free_result(cache);
 }
 
@@ -123,12 +123,12 @@ stock write_string(column[], value[])
 	return 1;
 }
 
-stock write_float(const column[], const Float:value)
+stock write_float(column[], Float:value)
 {
 	return write_string(column, sprintf("%f", value));
 }
 
-stock write_int(const column[], const value)
+stock write_int(column[], value)
 {
 	return write_string(column, sprintf("%d", value));
 }
