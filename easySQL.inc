@@ -113,13 +113,13 @@ stock read_int(const column[])
 
 static n_write, w_i, w_str[4096];
 
-stock write_string(const column[], const value[])
+stock write_string(column[], value[])
 {
 	if(!(0 < strlen(column) < 17)) return 0;
 	else if(!(0 < strlen(value) < 32)) return 0;
 
 	SetSVarString(sprintf("sql_column:%d", n_write), column);
-	SetSVarString(sprintf("sql_value:%d", n_write++), column);
+	SetSVarString(sprintf("sql_value:%d", n_write++), value);
 	return 1;
 }
 
