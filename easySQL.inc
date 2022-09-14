@@ -1,5 +1,6 @@
 #if defined fake_native
-native set_database(const DB:handle); // setar banco de dados
+native DB:open_database(const name[]); // abrir banco de handle
+native set_database(const DB:handle); // setar banco de handle
 native create_table(const name[]); // criar tabela
 native drop_table(const name[]); // deletar tabela
 native table_exists(const name[]); // verificar se tabela existe
@@ -25,42 +26,50 @@ native write_int(const column[], const value); // pre-escrever o valor inteiro n
 
 #include <strlib>
 
-static ret, query[255], DB:dados, DBResult:cache;
+static ret, query[255], DB:handle, DBResult:cache;
 
-stock set_database(const DB:handle) dados = handle;
+stock DB:open_database(name[])
+{
+	if(handle == DB:0)
+		handle = db_open(name);
+
+	return handle;
+}
+
+stock set_database(const DB:handl) handle = handl;
 
 stock create_table(const name[])
 {
-	cache = db_query(dados, sprintf("create table %s (idx int primary key asc);", name));
+	cache = db_query(handle, sprintf("create table %s (idx int primary key asc);", name));
 	db_free_result(cache);
 }
 
 stock drop_table(const name[])
 {
-	cache = db_query(dados, sprintf("drop table %s;", name));
+	cache = db_query(handle, sprintf("drop table %s;", name));
 	db_free_result(cache);
 }
 
 stock table_exists(const name[])
 {
-	cache = db_query(dados, sprintf("select * from %s;", name));
-	vInt = db_num_rows(cache); db_free_result(cache);
-	return (vInt > 0);
+	cache = db_query(handle, sprintf("select * from %s;", name));
+	ret = db_num_rows(cache); db_free_result(cache);
+	return (ret > 0);
 }
 
 stock add_column(const table[], const name[], const type, const length = 11)
 {
-	if(type == 2) format(vArray, sizeof(vArray), "alter table %s add %s varchar(%d);", table, name, length);
-	else if(type == 1) format(vArray, sizeof(vArray), "alter table %s add %s float;", table, name);
-	else format(vArray, sizeof(vArray), "alter table %s add %s integer(%d);", table, name, length);
-	db_free_result(db_query(dados, vArray));
+	if(type == 2) format(query, sizeof(query), "alter table %s add %s varchar(%d);", table, name, length);
+	else if(type == 1) format(query, sizeof(query), "alter table %s add %s float;", table, name);
+	else format(query, sizeof(query), "alter table %s add %s integer(%d);", table, name, length);
+	db_free_result(db_query(handle, query));
 }
 
 stock column_exists(const table[], const name[])
 {
-	cache = db_query(dados, sprintf("select * from pragma_table_info('%s') where name = '%s';", table, name));
-	vInt = db_num_rows(cache); db_free_result(cache);
-	return (vInt > 0);
+	cache = db_query(handle, sprintf("select * from pragma_table_info('%s') where name = '%s';", table, name));
+	ret = db_num_rows(cache); db_free_result(cache);
+	return (ret > 0);
 }
 
 
@@ -76,7 +85,7 @@ stock select_table(const table[], const specifier[] = "")
 		strcat(r_str, sprintf(" %s", specifier));
 
 	db_free_result(result);
-	result = db_query(dados, r_str);
+	result = db_query(handle, r_str);
 
 	if(db_num_rows(result)) return 1;
 	else db_free_result(result);
@@ -149,7 +158,7 @@ stock insert_table(const table[])
 	}
 
 	strcat(w_str, ")");
-	db_free_result(db_query(dados, w_str));
+	db_free_result(db_query(handle, w_str));
 	return select_table(table);
 }
 
@@ -171,7 +180,7 @@ stock update_table(const table[], const specifier[] = "")
 	if(specifier[0])
 		strcat(w_str, sprintf(" %s", specifier));
 
-	db_free_result(db_query(dados, w_str));
+	db_free_result(db_query(handle, w_str));
 	return select_table(table, specifier);
 }
 
