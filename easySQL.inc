@@ -92,97 +92,22 @@ stock select_table(const table[], const specifier[] = "")
 	return 0;
 }
 
-stock read_string(const column[], dest[])
+stock read_string(const column[], dest[], len)
 {
 	if(!db_num_rows(result)) return 0;
-	return db_get_field_assoc(result, column, dest, 32);
+	return db_get_field_assoc(result, column, dest, len);
 }
 
 stock Float:read_float(const column[])
 {
-	read_string(column, r_str);
+	read_string(column, r_str, sizeof r_str);
 	return floatstr(r_str);
 }
 
 stock read_int(const column[])
 {
-	read_string(column, r_str);
+	read_string(column, r_str, sizeof r_str);
 	return strval(r_str);
 }
-
-
-static n_write, w_i, w_str[4096];
-
-stock write_string(column[], value[])
-{
-	if(!(0 < strlen(column) < 17)) return 0;
-	else if(!(0 < strlen(value) < 32)) return 0;
-
-	SetSVarString(sprintf("sql_column:%d", n_write), column);
-	SetSVarString(sprintf("sql_value:%d", n_write++), value);
-	return 1;
-}
-
-stock write_float(column[], Float:value)
-{
-	return write_string(column, sprintf("%f", value));
-}
-
-stock write_int(column[], value)
-{
-	return write_string(column, sprintf("%d", value));
-}
-
-stock insert_table(const table[])
-{
-	format(w_str, sizeof(w_str), "insert into %s (", table);
-	for(w_i = 0; w_i < n_write; w_i++)
-	{
-		static column[16];
-		GetSVarString(sprintf("sql_column:%d", w_i), column, sizeof(column));
-		DeleteSVar(sprintf("sql_column:%d", w_i));
-
-		format(w_str, sizeof(w_str), "%s%s", w_str, column);
-		if((w_i + 1) < n_write) strcat(w_str, ",");
-	}
-
-	strcat(w_str, ") values (");
-	for(w_i = 0; w_i < n_write; w_i++)
-	{
-		static value[32];
-		GetSVarString(sprintf("sql_value:%d", w_i), value, sizeof(value));
-		DeleteSVar(sprintf("sql_value:%d", w_i));
-
-		format(w_str, sizeof(w_str), "%s'%s'", w_str, value);
-		if((w_i + 1) < n_write) strcat(w_str, ",");
-	}
-
-	strcat(w_str, ")");
-	db_free_result(db_query(handle, w_str));
-	return select_table(table);
-}
-
-stock update_table(const table[], const specifier[] = "")
-{
-	format(w_str, sizeof(w_str), "update %s set", table);
-	for(w_i = 0; w_i < n_write; w_i++)
-	{
-		static column[16], value[32];
-		GetSVarString(sprintf("sql_column:%d", w_i), column, sizeof(column));
-		GetSVarString(sprintf("sql_value:%d", w_i), value, sizeof(value));
-		DeleteSVar(sprintf("sql_column:%d", w_i));
-		DeleteSVar(sprintf("sql_value:%d", w_i));
-
-		format(w_str, sizeof(w_str), "%s %s='%s'", w_str, column, value);
-		if((w_i + 1) < n_write) strcat(w_str, ",");
-	}
-	
-	if(specifier[0])
-		strcat(w_str, sprintf(" %s", specifier));
-
-	db_free_result(db_query(handle, w_str));
-	return select_table(table, specifier);
-}
-
 
 
