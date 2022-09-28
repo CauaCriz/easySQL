@@ -2,23 +2,31 @@
 Um jeito mais facil de usar SQL no Pawn
 <br />
 ```pwn
-function set_database(const DB:handle); // setar banco de dados
-function create_table(const name[]); // criar tabela
-function drop_table(const name[]); // deletar tabela
-function table_exists(const name[]); // verificar se tabela existe
-function add_column(const table[], const name[], const type, const length = 11); // adicionar coluna na tabela
-function column_exists(const table[], const name[]); // verificar se coluna existe na tabela
-function select_table(const table[], const specifier[] = ""); // selecionar resultados na tabela
-function insert_table(const table[]); // inserir resultados na tabela
-function update_table(const table[], const specifier[] = ""); // atualizar resultados na tabela
+native db_create_table(DB:handle, table[]);
+native db_drop_table(DB:handle, table[]);
+native db_table_exists(DB:handle, table[]);
+native db_add_column(DB:handle, table[], name[], type[], length = 11, bool:notnull = false, default[] = "");
+native db_column_exists(DB:handle, table[], column[]);
+native DBResult:db_pragma_table_info(DB:handle, table[]);
+native DBResult:db_select_all(DB:handle, table[], more[] = "");
+native db_delete(DB:handle, table[], more[] = "");
 
-function read_string(const column[], dest[]); // recuperar string em uma tabela especifica
-function Float:read_float(const column[]); // recuperar float em uma tabela especifica
-function read_int(const column[]); // recuperar int em uma tabela especifica
-
-function write_string(const column[], const value[]); // pre-escrever o valor da string na coluna
-function write_float(const column[], const Float:value); // pre-escrever o valor flutuante na coluna
-function write_int(const column[], const value); // pre-escrever o valor inteiro na coluna
+ // insert table values
+native db_insert_field(DB:handle, table[], column[], value[], id = -1);
+native db_insert_field_int(DB:handle, table[], column[], value, id = -1);
+native db_insert_field_float(DB:handle, table[], column[], Float:value, id = -1);
+ 
+ // update table values
+native db_update_field(DB:handle, table[], column[], value[], more[] = "");
+native db_update_field_int(DB:handle, table[], column[], value, more[] = "");
+native db_update_field_float(DB:handle, table[], column[], Float:value, more[] = "");
+ 
+ // formatting for 'more' options
+native StringColumn(string[], column[], sinal[] = "=");
+native DecimalColumn(decimal, column[], sinal[] = "=");
+native RealColumn(Float:real, column[], sinal[] = "=");
 ```
 <br />
-Detectado apenas uma falha em <b>update_table</b>
+Nova versao! n�o testado. <br />
+Nessa vers�o o objetivo era deixar o mais semelhante poss�vel com o a_sampdb
+dessa forma seria mais convidativo a entender essa biblioteca que poucos usam
