@@ -1,113 +1,160 @@
-#if defined fake_native
-native DB:open_database(const name[]); // abrir banco de handle
-native set_database(const DB:handle); // setar banco de handle
-native create_table(const name[]); // criar tabela
-native drop_table(const name[]); // deletar tabela
-native table_exists(const name[]); // verificar se tabela existe
-native add_column(const table[], const name[], const type, const length = 11); // adicionar coluna na tabela
-native column_exists(const table[], const name[]); // verificar se coluna existe na tabela
-native select_table(const table[], const specifier[] = ""); // selecionar resultados na tabela
-native insert_table(const table[]); // inserir resultados na tabela
-native update_table(const table[], const specifier[] = ""); // atualizar resultados na tabela
+/*****************************************************************************************************************************************
+ native db_create_table(DB:handle, table[]);
+ native db_drop_table(DB:handle, table[]);
+ native db_table_exists(DB:handle, table[]);
+ native db_add_column(DB:handle, table[], name[], type[], length = 11, bool:notnull = false, default[] = "");
+ native db_column_exists(DB:handle, table[], column[]);
+ native DBResult:db_pragma_table_info(DB:handle, table[]);
+ native DBResult:db_select_all(DB:handle, table[], more[] = "");
+ native db_delete(DB:handle, table[], more[] = "");
 
-native read_string(const column[], dest[]); // recuperar string em uma tabela especifica
-native Float:read_float(const column[]); // recuperar float em uma tabela especifica
-native read_int(const column[]); // recuperar int em uma tabela especifica
+ // insert table values
+ native db_insert_field(DB:handle, table[], column[], value[], id = -1);
+ native db_insert_field_int(DB:handle, table[], column[], value, id = -1);
+ native db_insert_field_float(DB:handle, table[], column[], Float:value, id = -1);
+ 
+ // update table values
+ native db_update_field(DB:handle, table[], column[], value[], more[] = "");
+ native db_update_field_int(DB:handle, table[], column[], value, more[] = "");
+ native db_update_field_float(DB:handle, table[], column[], Float:value, more[] = "");
+ 
+ // formatting for 'more' options
+ native StringColumn(string[], column[], sinal[] = "=");
+ native DecimalColumn(decimal, column[], sinal[] = "=");
+ native RealColumn(Float:real, column[], sinal[] = "=");
+*****************************************************************************************************************************************/
 
-native write_string(const column[], const value[]); // pre-escrever o valor da string na coluna
-native write_float(const column[], const Float:value); // pre-escrever o valor flutuante na coluna
-native write_int(const column[], const value); // pre-escrever o valor inteiro na coluna
-#endif
-
-#if defined _easysql_
+#if defined easySQL_included
 	#endinput
 #endif
-#define _easysql_
+#define easySQL_included
 
-#include <strlib>
+static g_query[4096], DBResult:g_cache;
 
-static ret, query[255], DB:handle, DBResult:cache;
+#pragma warning disable 239
 
-stock DB:open_database(name[])
+stock db_create_table(DB:handle, table[])
 {
-	if(handle == DB:0)
-		handle = db_open(name);
-
-	return handle;
+	strcpy(g_query, "create table '%s' ('id' integer primary key asc)");
+	format(g_query, sizeof g_query, g_query, table);
+	db_free_result(db_query(handle, g_query));
 }
 
-stock set_database(const DB:handl) handle = handl;
-
-stock create_table(const name[])
+stock db_drop_table(DB:handle, table[])
 {
-	cache = db_query(handle, sprintf("create table %s (idx integer primary key autoincrement);", name));
-	db_free_result(cache);
+	format(g_query, sizeof g_query, "drop table '%s'", table);
+	db_free_result(db_query(handle, g_query));
 }
 
-stock drop_table(const name[])
+stock db_table_exists(DB:handle, table[])
 {
-	cache = db_query(handle, sprintf("drop table %s;", name));
-	db_free_result(cache);
+	if(cache > DBResult:0) db_free_result(cache);
+	cache = db_select(handle, table);
+	return db_num_rows(cache);
 }
 
-stock table_exists(const name[])
+stock db_add_column(DB:handle, table[], name[], type[],
+	length = 11, bool:notnull = false, default[] = "")
 {
-	cache = db_query(handle, sprintf("select * from %s;", name));
-	ret = db_num_rows(cache); db_free_result(cache);
-	return (ret > 0);
-}
-
-stock add_column(const table[], const name[], const type, const length = 11)
-{
-	if(type == 2) format(query, sizeof(query), "alter table %s add %s varchar(%d);", table, name, length);
-	else if(type == 1) format(query, sizeof(query), "alter table %s add %s float;", table, name);
-	else format(query, sizeof(query), "alter table %s add %s integer(%d);", table, name, length);
+	format(query, sizeof g_query, "alter table %s add %s %s(%d)", table, name, type, length);
+	format(query, sizeof g_query, "%s %s", g_query, (null ? "not null" : ""));
+	if(strlen(default)) format(query, sizeof g_query, "%s default %s", g_query, default);
 	db_free_result(db_query(handle, query));
 }
 
-stock column_exists(const table[], const name[])
+stock db_column_exists(DB:handle, table[], column[])
 {
-	cache = db_query(handle, sprintf("select * from pragma_table_info('%s') where name = '%s';", table, name));
-	ret = db_num_rows(cache); db_free_result(cache);
-	return (ret > 0);
+	if(cache > DBResult:0) db_free_result(cache);
+	format(query, sizeof g_query, "'name' = '%s'", column);
+	cache = db_pragma_table_info(DB:handle, table, g_query);
 }
 
-
-// ---------- read and write table functions =---------- //
-
-static r_str[4096], DBResult:result;
-
-stock select_table(const table[], const specifier[] = "")
+stock DBResult:db_pragma_table_info(DB:handle, table[], more[] = "")
 {
-	format(r_str, sizeof(r_str), "select * from %s", table);
-
-	if(specifier[0])
-		strcat(r_str, sprintf(" %s", specifier));
-
-	db_free_result(result);
-	result = db_query(handle, r_str);
-
-	if(db_num_rows(result)) return 1;
-	else db_free_result(result);
-	return 0;
+	format(g_query, sizeof g_query, "pragma_table_info('%s')", table);
+	return db_select(handle, g_query, more);
 }
 
-stock read_string(const column[], dest[], len)
+stock DBResult:db_select_all(DB:handle, table[], more[] = "")
 {
-	if(!db_num_rows(result)) return 0;
-	return db_get_field_assoc(result, column, dest, len);
+	format(g_query, sizeof g_query, "select * from '%s' %s", table, more);
+	return db_query(handle, g_query);
 }
 
-stock Float:read_float(const column[])
+stock db_delete(DB:handle, table[], more[] = "")
 {
-	read_string(column, r_str, sizeof r_str);
-	return floatstr(r_str);
+	format(g_query, sizeof g_query, "delete from '%s' %s", table, more);
+	db_free_result(db_query(handle, g_query));
 }
 
-stock read_int(const column[])
+stock db_insert_field(DB:handle, table[], column[], value[], id = -1)
 {
-	read_string(column, r_str, sizeof r_str);
-	return strval(r_str);
+	if(id)
+		format(g_query, sizeof g_query, "insert or replace into '%s' ('id', '%s') values ('%d', '%s')", table, column, id, value);
+	else
+		format(g_query, sizeof g_query, "insert or ignore into '%s' ('%s') values ('%s')", table, column, value);
+
+	db_free_result(db_query(handle, g_query))
+
+	if(id == 0)
+	{
+		if(cache > DBResult:0) db_free_result(cache);
+		format(g_query, sizeof g_query, "where '%s' = '%s' limit '1'", column, value);
+		cache = db_select(handle, table, g_query);
+		id = db_get_field_assoc_int(cache, "id");
+	}
+	return id;
 }
 
+stock db_insert_field_int(DB:handle, table[], column[], value, id = -1)
+{
+	format(g_query, sizeof g_query, "%d", value);
+	return db_insert_field(handle, table, column, g_query, id);
+}
 
+stock db_insert_field_float(DB:handle, table[], column[], Float:value, id = -1)
+{
+	format(g_query, sizeof g_query, "%f", value);
+	return db_insert_field(handle, table, column, g_query, id);
+}
+
+stock db_update_field(DB:handle, table[], column[], value[], more[] = "")
+{
+	format(g_query, sizeof g_query, "update '%s' set '%s' = '%s' %s", table, column, value, more);
+	return db_free_result(db_query(handle, g_query));
+}
+
+stock db_update_field_int(DB:handle, table[], column[], value, more[] = "")
+{
+	format(g_query, sizeof g_query, "update '%s' set '%s' = '%d' %s", table, column, value, more);
+	return db_free_result(db_query(handle, g_query));
+}
+
+stock db_update_field_float(DB:handle, table[], column[], Float:value, more[] = "")
+{
+	format(g_query, sizeof g_query, "update '%s' set '%s' = '%f' %s", table, column, value, more);
+	return db_free_result(db_query(handle, g_query));
+}
+
+stock StringColumn(string[], column[], sinal[] = "=")
+{
+	static str[510];
+	format(str, sizeof str, "where '%s' %s '%s'", column, sinal, string);
+	return str;
+}
+
+stock DecimalColumn(decimal, column[], sinal[] = "=")
+{
+	static str[510];
+	format(str, sizeof str, "where '%s' %s '%s'", column, sinal, decimal);
+	return str;
+}
+
+stock RealColumn(Float:real, column[], sinal[] = "=")
+{
+	static str[510];
+	format(str, sizeof str, "where '%s' %s '%s'", column, sinal, real);
+	return str;
+}
+
+#pragma warning enable 239
