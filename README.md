@@ -27,6 +27,6 @@ native DecimalColumn(decimal, column[], sinal[] = "=");
 native RealColumn(Float:real, column[], sinal[] = "=");
 ```
 <br />
-Nova versao! n�o testado. <br />
-Nessa vers�o o objetivo era deixar o mais semelhante poss�vel com o a_sampdb
+Nova versao! nao testado. <br />
+Nessa versao o objetivo era deixar o mais semelhante possivel com o a_sampdb
 dessa forma seria mais convidativo a entender essa biblioteca que poucos usam
